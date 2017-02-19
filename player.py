@@ -1,7 +1,6 @@
 """
 Author: Ned Austin Datiles
 """
-
 import pygame
 from vehicle import Vehicle
 from core import PLAYER_SHIP_TYPES
@@ -101,10 +100,8 @@ class Player(Vehicle):
                 enemy_hit_list = pygame.sprite.spritecollide(bullet, self.level.enemy_list, False)
                 if enemy_hit_list:
                     self.ammunition_list.remove(bullet)
-                    self.animation_list.add(Animation(bullet.rect.x, bullet.rect.y))
                     for enemy in enemy_hit_list:
                         enemy.sustain_damage(bullet.get_impact())
-                        self.context_info.add(Text(enemy, bullet.get_impact(), RED))
                         if not(enemy.is_alive()):
                             self.increase_score(enemy.get_reward())
                             self.level.enemy_list.remove(enemy)
@@ -117,13 +114,9 @@ class Player(Vehicle):
             for bullet in self.ammunition_list:
                 debris_hit_list = pygame.sprite.spritecollide(bullet, self.level.debris_list, False)
                 if debris_hit_list:
-                    # Save the bullet's damage for inflicting damage onto meteors
-                    bullet_damage = bullet.get_impact()
                     self.ammunition_list.remove(bullet)
-                    self.animation_list.add(Animation(bullet.rect.x, bullet.rect.y))
                     for debris in debris_hit_list:
-                        self.context_info.add(Text(debris, bullet.get_impact(), RED))
-                        debris.sustain_damage(bullet_damage)
+                        debris.sustain_damage(bullet.get_impact())
                         if not(debris.is_alive()):
                             self.level.debris_list.remove(debris)
 

@@ -19,10 +19,6 @@ class Vehicle(pygame.sprite.Sprite):
         # Vehicle ammunition list
         self.ammunition_list = pygame.sprite.Group()
 
-        self.context_info = pygame.sprite.Group()
-
-        self.animation_list = pygame.sprite.Group()
-
         # Initialize the vehicle health
         self.health = health
 
@@ -64,10 +60,6 @@ class Vehicle(pygame.sprite.Sprite):
     def draw(self, screen):
         if self.ammunition_list:
             self.ammunition_list.draw(screen)
-        if self.context_info:
-            self.context_info.draw(screen)
-        if self.animation_list:
-            self.animation_list.draw(screen)
 
     def shoot(self):
         pass
@@ -98,8 +90,4 @@ class Vehicle(pygame.sprite.Sprite):
         if self.ammunition_list:
             self.ammunition_list.update()
             self.check_bullet_collisions()
-        if self.context_info:
-            self.context_info.update()
-        if self.animation_list:
-            self.animation_list.update()
         self.check_boundaries()

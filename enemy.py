@@ -20,6 +20,7 @@ class Enemy(Vehicle):
     def __init__(self, type_, health=200):
         super().__init__(ENEMY_SHIP_TYPES[type_]["image"], shot_damage=self.DEFAULT_ENEMY_SHOT_DAMAGE,
                          shot_speed=self.DEFAULT_ENEMY_SHOT_SPEED, health=health)
+
         self.reward = health
         self.track_player = False
 
@@ -62,10 +63,8 @@ class Enemy(Vehicle):
             hit_player = pygame.sprite.spritecollide(self.level.player, self.ammunition_list, False)
             if hit_player:
                 for bullet in hit_player:
-                    self.context_info.add(Text(self.level.player, bullet.get_impact(), RED))
                     self.level.player.sustain_damage(bullet.get_impact())
                     self.ammunition_list.remove(bullet)
-                    self.animation_list.add(Animation(bullet.rect.x, bullet.rect.y))
             for bullet in self.ammunition_list:
                 wall_hit_list = pygame.sprite.spritecollide(bullet, self.level.wall_list, False)
                 if wall_hit_list:
