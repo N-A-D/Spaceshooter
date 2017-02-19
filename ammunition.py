@@ -1,3 +1,7 @@
+"""
+Author: Ned Austin Datiles
+"""
+
 import pygame
 from core import AMMO_TYPES
 from constants import BLACK, WINDOW_HEIGHT, WINDOW_WIDTH

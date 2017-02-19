@@ -1,3 +1,7 @@
+"""
+Author: Ned Austin Datiles
+"""
+
 import pygame, copy
 
 from constants import BLACK

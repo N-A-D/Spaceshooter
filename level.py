@@ -1,3 +1,6 @@
+"""
+Author: Ned Austin Datiles
+"""
 import pygame, sys, random
 from player import Player
 from enemy import Enemy

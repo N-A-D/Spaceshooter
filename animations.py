@@ -1,3 +1,7 @@
+"""
+Author: Ned Austin Datiles
+"""
+
 import pygame, sys
 from core import LASER_ANIMATIONS
 from random import randint

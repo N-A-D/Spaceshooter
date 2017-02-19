@@ -1,3 +1,7 @@
+"""
+Author: Ned Austin Datiles
+"""
+
 import pygame, random
 
 class Vehicle(pygame.sprite.Sprite):

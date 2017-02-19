@@ -1,3 +1,7 @@
+"""
+Author: Ned Austin Datiles
+"""
+
 import pygame
 
 class Text(pygame.sprite.Sprite):

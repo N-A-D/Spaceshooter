@@ -1,5 +1,4 @@
 """
-This file contains functions for loading up all the sprites from 1 sprite sheet
 Author: Ned Austin Datiles
 """
 from xml.dom.minidom import parse

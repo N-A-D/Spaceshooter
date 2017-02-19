@@ -1,3 +1,7 @@
+"""
+Author: Ned Austin Datiles
+"""
+
 import pygame
 
 class HealthBar(pygame.sprite.Sprite):

@@ -1,3 +1,7 @@
+"""
+Author: Ned Austin Datiles
+"""
+
 import pygame, math
 from vehicle import Vehicle
 from core import ENEMY_SHIP_TYPES

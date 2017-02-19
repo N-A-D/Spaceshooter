@@ -1,3 +1,7 @@
+"""
+Author: Ned Austin Datiles
+"""
+
 import pygame
 from vehicle import Vehicle
 from core import PLAYER_SHIP_TYPES
