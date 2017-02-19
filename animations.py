@@ -20,4 +20,3 @@ class Animation(pygame.sprite.Sprite):
         current_time = pygame.time.get_ticks()
         if current_time - self.time_of_appearance > self.animation_duration:
             self.kill()
-

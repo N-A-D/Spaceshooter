@@ -40,9 +40,16 @@ class Enemy(Vehicle):
 
     def enemy_rotate(self):
         if self.track_player:
+            # Find the distance between this enemy and the player in the x and y direction.
             diff_x = self.level.player.rect.x - self.rect.x
             diff_y = self.level.player.rect.y - self.rect.y
+            # Find the angle to rotate this enemy by
+            # we negate diff_x because the player can move side to side
+            # and so it would sometimes have an x coordinate less than this enemies ship
+            # and then a second later have one that is greater.
+            # -90 ensures that the ship is upright.
             self.image_angle = int(math.degrees(math.atan2(diff_y, -diff_x))) - 90
+            # We need radians to calculate the projectile trajectory.
             rad = math.radians(self.image_angle + 90)
             self.bullet_vector = [-math.cos(rad), math.sin(rad)]
             self.shoot()
