@@ -123,7 +123,7 @@ def main():
     clock = pygame.time.Clock()
 
     all_sprite_list = pygame.sprite.Group()
-    player = Player(random.randint(0, len(PLAYER_SHIP_TYPES) - 1))
+    player = Player()
     all_sprite_list.add(player)
 
     level = Level01(player)

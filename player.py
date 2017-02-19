@@ -1,7 +1,7 @@
 """
 Author: Ned Austin Datiles
 """
-import pygame
+import pygame, random
 from vehicle import Vehicle
 from core import PLAYER_SHIP_TYPES
 from constants import WINDOW_HEIGHT, WINDOW_WIDTH, RED
@@ -15,7 +15,7 @@ class Player(Vehicle):
     DEFAULT_SHOOTING_TIME = 200
     POWERUP_DURATION = 5000
 
-    def __init__(self, type=0, has_shield=False):
+    def __init__(self, type=random.randint(0, 7), has_shield=False):
         super().__init__(PLAYER_SHIP_TYPES[type]["image"], shot_damage= self.DEFAULT_SHOT_DAMAGE,
                          shot_speed= self.DEFAULT_SHOT_SPEED, health=1000)
         self.score = 0
