@@ -7,8 +7,6 @@ from core import PLAYER_SHIP_TYPES
 from constants import WINDOW_HEIGHT, WINDOW_WIDTH, RED
 from healthbar import HealthBar
 from ammunition import Ammunition
-from animations import Animation
-from textInfo import Text
 
 class Player(Vehicle):
     DEFAULT_SHOT_DAMAGE = 50
@@ -30,7 +28,7 @@ class Player(Vehicle):
 
         # Container for the player's health bar. Only for drawing purposes
         self.health_container = pygame.sprite.Group()
-        health_bar = HealthBar(self)
+        health_bar = HealthBar(self, (self.rect.width, self.rect.height))
         self.health_container.add(health_bar)
 
         self.shooting_time = self.DEFAULT_SHOOTING_TIME
@@ -60,8 +58,8 @@ class Player(Vehicle):
         return self.score
 
     def draw(self, screen):
-        self.health_container.draw(screen)
         super().draw(screen)
+        self.health_container.draw(screen)
         if self.has_shield:
             self.shield.draw(screen)
 

@@ -1,7 +1,6 @@
 """
 Author: Ned Austin Datiles
 """
-
 import pygame
 from core import AMMO_TYPES
 from constants import BLACK, WINDOW_HEIGHT, WINDOW_WIDTH
@@ -20,12 +19,11 @@ class Ammunition(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
 
         self.set_location(self.owner.rect.x + self.owner.rect.width // 2 - self.rect.width//2,
-                          self.owner.rect.y + self.owner.rect.height // 2 + self.rect.height // 2
-                         )
+                          self.owner.rect.y + self.owner.rect.height // 2 + self.rect.height // 2)
 
         # Set the damage
         self.damage = shot_damage
-
+        # We need floats since integers are not the best for calculating directions
         self.float_x = self.rect.x
         self.float_y = self.rect.y
         self.change_x = self.owner.bullet_vector[0] * shot_speed

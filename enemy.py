@@ -5,10 +5,9 @@ Author: Ned Austin Datiles
 import pygame, math
 from vehicle import Vehicle
 from core import ENEMY_SHIP_TYPES
-from textInfo import Text
+from healthbar import HealthBar
 from ammunition import Ammunition
-from animations import Animation
-from constants import RED
+
 
 class Enemy(Vehicle):
     """ Enemy class definition """
@@ -17,7 +16,7 @@ class Enemy(Vehicle):
     DEFAULT_ENEMY_SHOOTING_TIME = 3000
     # Note: the fastest that the enemies can shoot at is 200 milliseconds
 
-    def __init__(self, type_, health=200):
+    def __init__(self, type_, health=1000):
         super().__init__(ENEMY_SHIP_TYPES[type_]["image"], shot_damage=self.DEFAULT_ENEMY_SHOT_DAMAGE,
                          shot_speed=self.DEFAULT_ENEMY_SHOT_SPEED, health=health)
 
@@ -25,7 +24,6 @@ class Enemy(Vehicle):
         self.track_player = False
 
         self.shooting_time = self.DEFAULT_ENEMY_SHOOTING_TIME
-
         # Vehicle's image_angle
         self.image_angle = 0
 
