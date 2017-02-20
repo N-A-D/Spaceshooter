@@ -36,6 +36,3 @@ class HealthBar(pygame.sprite.Sprite):
             self.image.convert_alpha(self.image)
             self.rect.x = self.owner.rect.x
             self.rect.y = self.owner.rect.y + self.owner.rect.height + self.BARHEIGHT
-        else:
-            self.kill()
-            self.owner.kill()
