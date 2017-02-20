@@ -51,7 +51,7 @@ class Vehicle(pygame.sprite.Sprite):
         self.health -= damage
 
     def is_alive(self):
-        return self.health >= 0
+        return self.health > 0
 
     def adjust_speed(self, x, y):
         self.change_x += x
