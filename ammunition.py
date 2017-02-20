@@ -2,8 +2,9 @@
 Author: Ned Austin Datiles
 """
 import pygame
-from core import AMMO_TYPES
+from core import AMMO_TYPES, LASER_ANIMATIONS
 from constants import BLACK, WINDOW_HEIGHT, WINDOW_WIDTH
+from animations import Animation
 
 class Ammunition(pygame.sprite.Sprite):
     """ Ammunition class definition"""
@@ -43,6 +44,9 @@ class Ammunition(pygame.sprite.Sprite):
     def set_impact(self, damage):
         self.damage = damage
 
+    def draw(self, screen):
+        pass
+
     def update(self):
         self.float_x += self.change_x
         self.float_y += self.change_y
@@ -51,3 +55,18 @@ class Ammunition(pygame.sprite.Sprite):
 
         if self.rect.x < -10 or self.rect.x > WINDOW_WIDTH - 10 or self.rect.y > WINDOW_HEIGHT + 10 or self.rect.y < -10:
             self.kill()
+
+class Laser(Ammunition):
+    DEFAULT_TRAVEL_SPEED = 10
+    DEFAULT_DAMAGE = 10
+    def __init__(self, owner, angle):
+        super().__init__(owner=owner, angle=angle, shot_damage=self.DEFAULT_DAMAGE,
+                         shot_speed=self.DEFAULT_TRAVEL_SPEED, type=owner.ammo_type)
+
+
+class Rocket(Ammunition):
+    DEFAULT_TRAVEL_SPEED = 5
+    DEFAULT_DAMAGE = 100
+    def __init__(self, owner, angle):
+        super().__init__(owner=owner, angle=angle, shot_damage=self.DEFAULT_DAMAGE,
+                         shot_speed=self.DEFAULT_TRAVEL_SPEED, type=owner.ammo_type)

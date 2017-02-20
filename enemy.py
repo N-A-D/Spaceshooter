@@ -5,8 +5,7 @@ Author: Ned Austin Datiles
 import pygame, math
 from vehicle import Vehicle
 from core import ENEMY_SHIP_TYPES
-from healthbar import HealthBar
-from ammunition import Ammunition
+from ammunition import Laser, Rocket
 
 
 class Enemy(Vehicle):
@@ -34,7 +33,7 @@ class Enemy(Vehicle):
         time_atm = pygame.time.get_ticks()
         if time_atm - self.last_shot_time > self.shooting_time:
             self.last_shot_time = time_atm
-            bullet = Ammunition(self, self.image_angle, self.shot_damage, self.shot_speed, self.ammo_type)
+            bullet = Laser(self, self.image_angle)
             self.ammunition_list.add(bullet)
 
     def enemy_rotate(self):

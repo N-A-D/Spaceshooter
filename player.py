@@ -6,7 +6,7 @@ from vehicle import Vehicle
 from core import PLAYER_SHIP_TYPES
 from constants import WINDOW_HEIGHT, WINDOW_WIDTH, RED
 from healthbar import HealthBar
-from ammunition import Ammunition
+from ammunition import Laser, Rocket
 
 class Player(Vehicle):
     DEFAULT_SHOT_DAMAGE = 50
@@ -67,8 +67,8 @@ class Player(Vehicle):
         time_atm = pygame.time.get_ticks()
         if time_atm - self.last_shot_time > self.shooting_time:
             self.last_shot_time = time_atm
-            bullet = Ammunition(self, 0, self.shot_damage, self.shot_speed, self.ammo_type)
-            self.ammunition_list.add(bullet)
+            laser = Laser(self, 0)
+            self.ammunition_list.add(laser)
 
     def handle_keystrokes(self):
         # Key pressed
