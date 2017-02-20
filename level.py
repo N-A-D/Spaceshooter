@@ -3,7 +3,7 @@ Author: Ned Austin Datiles
 """
 import pygame, sys, random
 from player import Player
-from enemy import Enemy
+from enemy import Elite_Drone
 from core import *
 from constants import *
 
@@ -102,7 +102,7 @@ class Level01(Level):
 
         for i in range(50, WINDOW_WIDTH - 50, 50):
             for j in range(-100, -50, 50):
-                enemy = Enemy(random.randint(0, len(ENEMY_SHIP_TYPES) - 1))
+                enemy = Elite_Drone()
                 #if random.uniform(0, 1) <= ENEMY_DENSITY:
                 enemy.set_location(i, j)
                 enemy.level = self

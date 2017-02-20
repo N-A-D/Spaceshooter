@@ -11,8 +11,8 @@ from ammunition import Laser, Rocket
 class Player(Vehicle):
     DEFAULT_SHOT_DAMAGE = 50
     DEFAULT_SHOT_SPEED = 10
-    DEFAULT_PLAYER_MOVEMENT_SPEED = 6
-    DEFAULT_SHOOTING_TIME = 200
+    DEFAULT_PLAYER_MOVEMENT_SPEED = 10
+    DEFAULT_SHOOTING_TIME = 100
     POWERUP_DURATION = 5000
 
     def __init__(self, type=random.randint(0, 7), has_shield=False):

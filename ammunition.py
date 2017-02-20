@@ -2,12 +2,12 @@
 Author: Ned Austin Datiles
 """
 import pygame
-from core import AMMO_TYPES, LASER_ANIMATIONS
+from core import AMMO_TYPES
 from constants import BLACK, WINDOW_HEIGHT, WINDOW_WIDTH
-from animations import Animation
 
 class Ammunition(pygame.sprite.Sprite):
-    """ Ammunition class definition"""
+    """ Ammunition superclass
+    """
     def __init__(self, owner, angle, shot_damage, shot_speed, type=0):
         super().__init__()
         self.owner = owner  # from where did this shot come from
@@ -62,7 +62,6 @@ class Laser(Ammunition):
     def __init__(self, owner, angle):
         super().__init__(owner=owner, angle=angle, shot_damage=self.DEFAULT_DAMAGE,
                          shot_speed=self.DEFAULT_TRAVEL_SPEED, type=owner.ammo_type)
-
 
 class Rocket(Ammunition):
     DEFAULT_TRAVEL_SPEED = 5

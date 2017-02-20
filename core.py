@@ -35,7 +35,6 @@ def load_images(sprite_list, scale, sprite_sheet):
         ])
         if scale:
             image = pygame.transform.smoothscale(image, scale)
-        image.set_colorkey((0,0,0))
         if "spaceBuilding" in sprite_list[i]["name"]:
             image = pygame.transform.flip(image, False, True)
         sprite_list[i]["image"] = image
@@ -77,13 +76,13 @@ def manipulate_sprite_sheet():
     sheet1 = pygame.image.load("Assets/sheet.png")
     sheet2 = pygame.image.load("Assets/sheet2.png")
     load_images(LASER_ANIMATIONS, (16, 16), sheet1)
-    load_images(PLAYER_SHIP_LIST, (25, 25), sheet1)
-    load_images(ENEMY_SHIP_LIST, (25, 25), sheet1)
+    load_images(PLAYER_SHIP_LIST, (30, 30), sheet1)
+    load_images(ENEMY_SHIP_LIST, (30, 30), sheet1)
     load_images(METEOR_LIST, None, sheet1)
-    load_images(LASER_LIST, (2, 7), sheet1)
+    load_images(LASER_LIST, (3, 10), sheet1)
     load_images(POWER_UP_LIST, None, sheet1)
     load_images(SHIELD, (45, 45), sheet1)
-    load_images(ENEMY_LIST_EXTRA, (25, 25), sheet2)
+    load_images(ENEMY_LIST_EXTRA, (30, 30), sheet2)
 
     ENEMY_SHIP_LIST.extend(ENEMY_LIST_EXTRA)
 
