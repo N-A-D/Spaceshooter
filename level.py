@@ -34,7 +34,7 @@ class Level(object):
         self.enemy_list = pygame.sprite.Group()  # list of all enemies in the level
         self.debris_list = pygame.sprite.Group() # list of debris found on the map. Includes powers + asteroids
         self.player = player                     # the player of the current level
-        self.enemy_animation_list = pygame.sprite.Group()
+        self.animation_list = pygame.sprite.Group()
 
         # Sets the wall's colour
         self.theme = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
@@ -78,19 +78,19 @@ class Level(object):
             self.shift_world(diff)
 
     def draw(self, screen):
-        self.enemy_animation_list.draw(screen)
         for enemy in self.enemy_list:
             enemy.draw(screen)
         self.enemy_list.draw(screen)
         self.wall_list.draw(screen)
         self.debris_list.draw(screen)
+        self.animation_list.draw(screen)
 
     def check_bullet_collisions(self):
         if self.player.ammunition_list:
             for bullet in self.player.ammunition_list:
                 enemy_hit_list = pygame.sprite.spritecollide(bullet, self.enemy_list, False)
                 if enemy_hit_list:
-                    self.player.animation_list.add(Animation(bullet.rect.x, bullet.rect.y + bullet.rect.height))
+                    self.animation_list.add(Animation(bullet.rect.x, bullet.rect.y + bullet.rect.height))
                     self.player.ammunition_list.remove(bullet)
                     for enemy in enemy_hit_list:
                         enemy.sustain_damage(bullet.get_impact())
@@ -113,11 +113,11 @@ class Level(object):
                                                          enemy.ammunition_list, False)
                 if hit_player:
                     for bullet in hit_player:
-                        self.enemy_animation_list.add(Animation(bullet.rect.x, bullet.rect.y))
+                        self.animation_list.add(Animation(bullet.rect.x, bullet.rect.y))
                         self.player.sustain_damage(bullet.get_impact())
                         enemy.ammunition_list.remove(bullet)
     def update(self):
-        self.enemy_animation_list.update()
+        self.animation_list.update()
         self.check_world_condition()
         self.check_bullet_collisions()
         self.debris_list.update()

@@ -42,7 +42,6 @@ class Player(Vehicle):
         # Player's bullet vector. The player's bullets only move downwards on the screen.
         self.bullet_vector = [0, -1]
 
-        self.animation_list = pygame.sprite.Group()
 
     def increase_shot_damage(self, multiplier):
         pass
@@ -61,7 +60,6 @@ class Player(Vehicle):
 
     def draw(self, screen):
         super().draw(screen)
-        self.animation_list.draw(screen)
         self.health_container.draw(screen)
         if self.has_shield:
             self.shield.draw(screen)
@@ -96,7 +94,6 @@ class Player(Vehicle):
             self.shoot()
 
     def update(self):
-        self.animation_list.update()
         self.health_container.update()
         if self.shield:
             self.shield.update()
