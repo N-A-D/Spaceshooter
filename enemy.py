@@ -158,7 +158,7 @@ class Elite_Drone(Enemy):
     SHOT_INTERVAL = 800
     SHOT_DAMAGE = 55
     HEALTH = 550
-    MIN_INDEX = 19
+    MIN_INDEX = 20
     MAX_INDEX = 27
     MOVEMENT_SPEED = 8
 
