@@ -83,11 +83,7 @@ class Vehicle(pygame.sprite.Sprite):
                 else:
                     self.rect.top = wall.rect.bottom
 
-    def check_bullet_collisions(self):
-        pass
-
     def update(self):
         if self.ammunition_list:
             self.ammunition_list.update()
-            self.check_bullet_collisions()
         self.check_boundaries()

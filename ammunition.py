@@ -53,7 +53,8 @@ class Ammunition(pygame.sprite.Sprite):
         self.rect.x = int(self.float_x)
         self.rect.y = int(self.float_y)
 
-        if self.rect.x < -10 or self.rect.x > WINDOW_WIDTH - 10 or self.rect.y > WINDOW_HEIGHT + 10 or self.rect.y < -10:
+        if self.rect.x < -10 or self.rect.x > WINDOW_WIDTH - 10 or \
+                        self.rect.y > WINDOW_HEIGHT + 10 or self.rect.y < -10:
             self.kill()
 
 class Laser(Ammunition):

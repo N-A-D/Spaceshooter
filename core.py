@@ -33,10 +33,13 @@ def load_images(sprite_list, scale, sprite_sheet):
             sprite_list[i]["x"], sprite_list[i]["y"],
             sprite_list[i]["width"], sprite_list[i]["height"]
         ])
+        image.set_colorkey((0, 0, 0))
         if scale:
             image = pygame.transform.smoothscale(image, scale)
+            image.set_colorkey((0, 0, 0))
         if "spaceBuilding" in sprite_list[i]["name"]:
             image = pygame.transform.flip(image, False, True)
+            image.set_colorkey((0, 0, 0))
         sprite_list[i]["image"] = image
 
 def manipulate_sprite_sheet():

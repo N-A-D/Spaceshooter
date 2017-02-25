@@ -4,7 +4,7 @@ Author: Ned Austin Datiles
 import pygame, sys, random
 from player import Player
 from enemy import Elite_Drone
-from core import *
+from animations import Animation
 from constants import *
 
 
@@ -34,6 +34,7 @@ class Level(object):
         self.enemy_list = pygame.sprite.Group()  # list of all enemies in the level
         self.debris_list = pygame.sprite.Group() # list of debris found on the map. Includes powers + asteroids
         self.player = player                     # the player of the current level
+        self.enemy_animation_list = pygame.sprite.Group()
 
         # Sets the wall's colour
         self.theme = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
@@ -77,44 +78,63 @@ class Level(object):
             self.shift_world(diff)
 
     def draw(self, screen):
+        self.enemy_animation_list.draw(screen)
         for enemy in self.enemy_list:
             enemy.draw(screen)
         self.enemy_list.draw(screen)
         self.wall_list.draw(screen)
         self.debris_list.draw(screen)
 
+    def check_bullet_collisions(self):
+        if self.player.ammunition_list:
+            for bullet in self.player.ammunition_list:
+                enemy_hit_list = pygame.sprite.spritecollide(bullet, self.enemy_list, False)
+                if enemy_hit_list:
+                    self.player.animation_list.add(Animation(bullet.rect.x, bullet.rect.y + bullet.rect.height))
+                    self.player.ammunition_list.remove(bullet)
+                    for enemy in enemy_hit_list:
+                        enemy.sustain_damage(bullet.get_impact())
+                        if not(enemy.is_alive()):
+                            self.player.increase_score(enemy.get_reward())
+                            self.enemy_list.remove(enemy)
+
+            # for bullet in self.ammunition_list:
+            #    debris_hit_list = pygame.sprite.spritecollide(bullet, self.level.debris_list, False)
+            #    if debris_hit_list:
+            #        self.ammunition_list.remove(bullet)
+            #        for debris in debris_hit_list:
+            #            debris.sustain_damage(bullet.get_impact())
+            #            if not(debris.is_alive()):
+            #                self.level.debris_list.remove(debris)
+
+        for enemy in self.enemy_list:
+            if enemy.ammunition_list:
+                hit_player = pygame.sprite.spritecollide(self.player,\
+                                                         enemy.ammunition_list, False)
+                if hit_player:
+                    for bullet in hit_player:
+                        self.enemy_animation_list.add(Animation(bullet.rect.x, bullet.rect.y))
+                        self.player.sustain_damage(bullet.get_impact())
+                        enemy.ammunition_list.remove(bullet)
     def update(self):
+        self.enemy_animation_list.update()
         self.check_world_condition()
+        self.check_bullet_collisions()
         self.debris_list.update()
         self.enemy_list.update()
         self.wall_list.update()
 
 class Level01(Level):
-
-
-    """
-    Notes:
-        There are 50
-    """
-
     def __init__(self, player):
         super().__init__(player)
 
         for i in range(50, WINDOW_WIDTH - 50, 50):
             for j in range(-100, -50, 50):
                 enemy = Elite_Drone()
-                #if random.uniform(0, 1) <= ENEMY_DENSITY:
                 enemy.set_location(i, j)
                 enemy.level = self
                 enemy.track_player = False
                 self.enemy_list.add(enemy)
-
-        """
-        for i in range(50, WINDOW_WIDTH - 50, 50):
-            for j in range(-250, -50, 50):
-                meteor = Meteor(i, j)
-                self.debris_list.add(meteor)
-        """
 
 def main():
     pygame.init()
@@ -129,8 +149,6 @@ def main():
     level = Level01(player)
     player.level = level
 
-    print(level.theme)
-
     pygame.time.set_timer(level.ENEMY_FIRE_EVENT, level.enemy_fire_time)
     while True:
         level.enemies_can_fire = False
@@ -139,8 +157,9 @@ def main():
                 pygame.quit()
                 sys.exit()
             elif event.type == level.ENEMY_FIRE_EVENT:
+                print(len(player.ammunition_list))
+                print(clock.get_fps())
                 level.enemies_can_fire = True
-               # print(clock.get_fps())
         level.update()
         all_sprite_list.update()
 

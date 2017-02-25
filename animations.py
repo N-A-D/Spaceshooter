@@ -2,24 +2,24 @@
 Author: Ned Austin Datiles
 """
 
-import pygame, sys
+import pygame, sys, random
 from core import LASER_ANIMATIONS
 from random import randint
 
+
 class Animation(pygame.sprite.Sprite):
-    def __init__(self, image, x, y):
+    def __init__(self, x, y,):
         super().__init__()
-        self.animation_duration = 100 # Default animation time
+        self.animation_duration = 50  # Default animation time
         self.time_of_appearance = pygame.time.get_ticks()
-        self.image = image
+        self.image = LASER_ANIMATIONS[random.randint(0, len(LASER_ANIMATIONS) - 1)]["image"]
         self.rect = self.image.get_rect()
+        self.rect.x = x - self.rect.width // 2
+        self.rect.y = y - self.rect.height // 3
 
     def set_location(self, x, y):
         self.rect.x = x - self.rect.width // 2
         self.rect.y = y - self.rect.height // 3
-
-    def has_disappeared(self):
-        return pygame.time.get_ticks() - self.time_of_appearance > self.animation_duration
 
     def update(self):
         current_time = pygame.time.get_ticks()

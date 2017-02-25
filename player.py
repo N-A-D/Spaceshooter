@@ -42,6 +42,8 @@ class Player(Vehicle):
         # Player's bullet vector. The player's bullets only move downwards on the screen.
         self.bullet_vector = [0, -1]
 
+        self.animation_list = pygame.sprite.Group()
+
     def increase_shot_damage(self, multiplier):
         pass
 
@@ -59,6 +61,7 @@ class Player(Vehicle):
 
     def draw(self, screen):
         super().draw(screen)
+        self.animation_list.draw(screen)
         self.health_container.draw(screen)
         if self.has_shield:
             self.shield.draw(screen)
@@ -92,36 +95,10 @@ class Player(Vehicle):
         if keys_down[pygame.K_SPACE]:
             self.shoot()
 
-    def check_bullet_collisions(self):
-        if self.ammunition_list:
-            for bullet in self.ammunition_list:
-                enemy_hit_list = pygame.sprite.spritecollide(bullet, self.level.enemy_list, False)
-                if enemy_hit_list:
-                    self.ammunition_list.remove(bullet)
-                    for enemy in enemy_hit_list:
-                        enemy.sustain_damage(bullet.get_impact())
-                        if not(enemy.is_alive()):
-                            self.increase_score(enemy.get_reward())
-                            self.level.enemy_list.remove(enemy)
-
-            for bullet in self.ammunition_list:
-                wall_hit_list = pygame.sprite.spritecollide(bullet, self.level.wall_list, False)
-                if wall_hit_list:
-                    self.ammunition_list.remove(bullet)
-
-            for bullet in self.ammunition_list:
-                debris_hit_list = pygame.sprite.spritecollide(bullet, self.level.debris_list, False)
-                if debris_hit_list:
-                    self.ammunition_list.remove(bullet)
-                    for debris in debris_hit_list:
-                        debris.sustain_damage(bullet.get_impact())
-                        if not(debris.is_alive()):
-                            self.level.debris_list.remove(debris)
-
     def update(self):
+        self.animation_list.update()
         self.health_container.update()
         if self.shield:
             self.shield.update()
-        self.check_bullet_collisions()
         self.handle_keystrokes()
         super().update()

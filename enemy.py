@@ -7,14 +7,12 @@ from vehicle import Vehicle
 from core import ENEMY_SHIP_TYPES
 from ammunition import Laser, Rocket
 
-
 class Enemy(Vehicle):
     """ Enemy super class definition """
 
     def __init__(self, type, shot_damage, shot_speed, shot_interval, health):
         super().__init__(ENEMY_SHIP_TYPES[type]["image"], shot_damage=shot_damage,
                          shot_speed=shot_speed, health=health)
-
         self.reward = None
         self.track_player = False
         self.movement_speed = 0
@@ -25,13 +23,6 @@ class Enemy(Vehicle):
         return self.reward
 
     def shoot(self):
-        """
-        time_atm = pygame.time.get_ticks()
-        if time_atm - self.last_shot_time > self.shooting_time:
-            self.last_shot_time = time_atm
-            bullet = Laser(self, self.image_angle)
-            self.ammunition_list.add(bullet)
-        """
         pass
 
     def enemy_rotate(self):
@@ -52,25 +43,9 @@ class Enemy(Vehicle):
             self.image = pygame.transform.rotozoom(self.original_image, self.image_angle, 1)
             self.image_angle = self.image_angle % 360
 
-
-    def check_bullet_collisions(self):
-        if self.ammunition_list:
-            hit_player = pygame.sprite.spritecollide(self.level.player, self.ammunition_list, False)
-            if hit_player:
-                for bullet in hit_player:
-                    self.level.player.sustain_damage(bullet.get_impact())
-                    self.ammunition_list.remove(bullet)
-            for bullet in self.ammunition_list:
-                wall_hit_list = pygame.sprite.spritecollide(bullet, self.level.wall_list, False)
-                if wall_hit_list:
-                    self.ammunition_list.remove(bullet)
-
-
     def update(self):
-        distance = math.sqrt((self.level.player.rect.x - self.rect.x) ** 2 + (self.level.player.rect.y - self.rect.y) ** 2)
         self.track_player = True
         self.enemy_rotate()
-        self.check_bullet_collisions()
         super().update()
 
 class Drone_1st_class(Enemy):
