@@ -105,7 +105,7 @@ class Level(object):
             #        for debris in debris_hit_list:
             #            debris.sustain_damage(bullet.get_impact())
             #            if not(debris.is_alive()):
-            #                self.level.debris_list.remove(debris)
+            #                self.level.debris_list.remove(debris
 
         for enemy in self.enemy_list:
             if enemy.ammunition_list:
