@@ -120,6 +120,8 @@ class Level(object):
                         self.player.sustain_damage(bullet.get_impact())
                         enemy.ammunition_list.remove(bullet)
     def update(self):
+        for enemy in self.enemy_list:
+            print(enemy.change_x, enemy.change_y)
         self.animation_list.update()
         self.check_world_condition()
         self.check_bullet_collisions()
@@ -130,7 +132,7 @@ class Level(object):
 class Level01(Level):
     def __init__(self, player):
         super().__init__(player)
-
+        """
         for i in range(50, WINDOW_WIDTH - 50, 50):
             for j in range(-100, -50, 50):
                 enemy = Elite_Drone()
@@ -138,6 +140,12 @@ class Level01(Level):
                 enemy.level = self
                 enemy.track_player = False
                 self.enemy_list.add(enemy)
+        """
+        enemy = Elite_Drone()
+        enemy.level = self
+        enemy.track_player = False
+        enemy.set_location(WINDOW_WIDTH//2, enemy.rect.height)
+        self.enemy_list.add(enemy)
 
 def main():
     pygame.init()
@@ -160,8 +168,6 @@ def main():
                 pygame.quit()
                 sys.exit()
             elif event.type == level.ENEMY_FIRE_EVENT:
-                print(len(player.ammunition_list))
-                print(clock.get_fps())
                 level.enemies_can_fire = True
         level.update()
         all_sprite_list.update()

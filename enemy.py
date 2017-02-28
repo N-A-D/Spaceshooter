@@ -5,7 +5,7 @@ Author: Ned Austin Datiles
 import pygame, math, random
 from vehicle import Vehicle
 from core import ENEMY_SHIP_TYPES
-from ammunition import Laser, Rocket
+from ammunition import Laser, Rocket, Ammunition
 
 class Enemy(Vehicle):
     """ Enemy super class definition """
@@ -18,6 +18,7 @@ class Enemy(Vehicle):
         self.movement_speed = 0
         self.shooting_time = shot_interval
         self.image_angle = 0
+        self.change_x, self.change_y = 0, 0
 
     def get_reward(self):
         return self.reward
@@ -43,10 +44,17 @@ class Enemy(Vehicle):
             self.image = pygame.transform.rotozoom(self.original_image, self.image_angle, 1)
             self.image_angle = self.image_angle % 360
 
+    def follow_player(self):
+        x, y = self.rect.x - self.level.player.rect.x, self.rect.y - self.level.player.rect.y
+        distance = math.hypot(x, y)
+        if (distance > 375 or distance < -375):
+            dx, dy = -x / distance, -y / distance
+            self.rect.x += dx * self.change_x
+            self.rect.y += dy * self.change_y
+
     def update(self):
-        self.track_player = True
         self.enemy_rotate()
-        super().update()
+        self.ammunition_list.update()
 
 class Drone_1st_class(Enemy):
     """
@@ -130,12 +138,12 @@ class Drone_3rd_class(Enemy):
 
 class Elite_Drone(Enemy):
     SHOT_SPEED = 12
-    SHOT_INTERVAL = 800
+    SHOT_INTERVAL = 2000
     SHOT_DAMAGE = 55
     HEALTH = 550
     MIN_INDEX = 20
     MAX_INDEX = 27
-    MOVEMENT_SPEED = 8
+    MOVEMENT_SPEED = 5
 
     def __init__(self):
         super().__init__(type=random.randint(self.MIN_INDEX, self.MAX_INDEX),
@@ -143,6 +151,8 @@ class Elite_Drone(Enemy):
                          shot_interval=self.SHOT_INTERVAL, health=self.HEALTH)
         self.reward = random.randint(self.MIN_INDEX, self.MAX_INDEX) * 40
         self.movement_speed = self.MOVEMENT_SPEED
+        self.change_x = self.movement_speed
+        self.change_y = self.movement_speed
         self.ammo_type = random.randint(16, 23)
         self.hasRockets = random.uniform(0, 1) <= .40
 
@@ -155,3 +165,11 @@ class Elite_Drone(Enemy):
             self.last_shot_time = time_atm
             bullet = Laser(self, self.image_angle)
             self.ammunition_list.add(bullet)
+
+    def update(self):
+        if self.rect.y + self.rect.height > 0:
+            self.track_player = True
+        if self.track_player:
+            self.follow_player()
+
+        super().update()

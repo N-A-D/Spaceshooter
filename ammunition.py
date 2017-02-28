@@ -62,7 +62,7 @@ class Laser(Ammunition):
     DEFAULT_DAMAGE = 10
     def __init__(self, owner, angle):
         super().__init__(owner=owner, angle=angle, shot_damage=self.DEFAULT_DAMAGE,
-                         shot_speed=self.DEFAULT_TRAVEL_SPEED, type=owner.ammo_type)
+                         shot_speed=10, type=owner.ammo_type)
 
 class Rocket(Ammunition):
     DEFAULT_TRAVEL_SPEED = 5
