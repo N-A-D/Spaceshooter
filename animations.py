@@ -10,7 +10,7 @@ from random import randint
 class Animation(pygame.sprite.Sprite):
     def __init__(self, x, y,):
         super().__init__()
-        self.animation_duration = 50  # Default animation time
+        self.animation_duration = 100  # Default animation time
         self.time_of_appearance = pygame.time.get_ticks()
         self.image = LASER_ANIMATIONS[random.randint(0, len(LASER_ANIMATIONS) - 1)]["image"]
         self.rect = self.image.get_rect()

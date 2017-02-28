@@ -5,6 +5,7 @@ import pygame, sys, random
 from player import Player
 from enemy import Elite_Drone
 from animations import Animation
+from textInfo import Text
 from constants import *
 
 
@@ -93,6 +94,7 @@ class Level(object):
                     self.animation_list.add(Animation(bullet.rect.x, bullet.rect.y + bullet.rect.height))
                     self.player.ammunition_list.remove(bullet)
                     for enemy in enemy_hit_list:
+                        self.animation_list.add(Text(enemy, bullet.get_impact(), (255, 0, 0)))
                         enemy.sustain_damage(bullet.get_impact())
                         if not(enemy.is_alive()):
                             self.player.increase_score(enemy.get_reward())
@@ -113,6 +115,7 @@ class Level(object):
                                                          enemy.ammunition_list, False)
                 if hit_player:
                     for bullet in hit_player:
+                        self.animation_list.add(Text(self.player, bullet.get_impact(), (255, 0, 0)))
                         self.animation_list.add(Animation(bullet.rect.x, bullet.rect.y))
                         self.player.sustain_damage(bullet.get_impact())
                         enemy.ammunition_list.remove(bullet)
