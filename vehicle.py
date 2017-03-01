@@ -2,7 +2,7 @@
 Author: Ned Austin Datiles
 """
 
-import pygame, random
+import pygame
 
 class Vehicle(pygame.sprite.Sprite):
 
@@ -65,25 +65,7 @@ class Vehicle(pygame.sprite.Sprite):
         pass
 
     def check_boundaries(self):
-        self.rect.x += self.change_x
-        wall_hit_list = pygame.sprite.spritecollide(self, self.level.wall_list, False)
-        if wall_hit_list:
-            for wall in wall_hit_list:
-                if self.change_x > 0:
-                    self.rect.right = wall.rect.left
-                else:
-                    self.rect.left = wall.rect.right
-
-        self.rect.y += self.change_y
-        wall_hit_list = pygame.sprite.spritecollide(self, self.level.wall_list, False)
-        if wall_hit_list:
-            for wall in wall_hit_list:
-                if self.change_y > 0:
-                    self.rect.bottom = wall.rect.top
-                else:
-                    self.rect.top = wall.rect.bottom
+        pass
 
     def update(self):
-        if self.ammunition_list:
-            self.ammunition_list.update()
-        self.check_boundaries()
+        pass

@@ -3,25 +3,49 @@ Author: Ned Austin Datiles
 """
 import pygame, random
 from vehicle import Vehicle
-from core import PLAYER_SHIP_TYPES
 from constants import WINDOW_HEIGHT, WINDOW_WIDTH, RED
 from healthbar import HealthBar
-from ammunition import Laser, Rocket
+from ammunition import Laser
+
 
 class Player(Vehicle):
+    PLAYER_SHIPS = {
+        'RED': [pygame.image.load("Assets\spaceshooter\PNG\playerShip1_red.png"),
+                pygame.image.load("Assets\spaceshooter\PNG\playerShip2_red.png"),
+                pygame.image.load("Assets\spaceshooter\PNG\playerShip3_red.png"),
+                ],
+        'BLUE': [
+            pygame.image.load("Assets\spaceshooter\PNG\playerShip1_blue.png"),
+            pygame.image.load("Assets\spaceshooter\PNG\playerShip2_blue.png"),
+            pygame.image.load("Assets\spaceshooter\PNG\playerShip3_blue.png")
+        ],
+        'GREEN': [
+            pygame.image.load("Assets\spaceshooter\PNG\playerShip1_green.png"),
+            pygame.image.load("Assets\spaceshooter\PNG\playerShip2_green.png"),
+            pygame.image.load("Assets\spaceshooter\PNG\playerShip3_green.png")
+        ],
+        'ORANGE': [
+            pygame.image.load("Assets\spaceshooter\PNG\playerShip1_orange.png"),
+            pygame.image.load("Assets\spaceshooter\PNG\playerShip2_orange.png"),
+            pygame.image.load("Assets\spaceshooter\PNG\playerShip3_orange.png")
+        ]
+    }
+
     DEFAULT_SHOT_DAMAGE = 50
     DEFAULT_SHOT_SPEED = 10
     DEFAULT_PLAYER_MOVEMENT_SPEED = 10
     DEFAULT_SHOOTING_TIME = 100
     POWERUP_DURATION = 5000
 
-    def __init__(self, type=random.randint(0, 7), has_shield=False):
-        super().__init__(PLAYER_SHIP_TYPES[type]["image"], shot_damage= self.DEFAULT_SHOT_DAMAGE,
-                         shot_speed= self.DEFAULT_SHOT_SPEED, health=1000)
+    def __init__(self):
+        image = pygame.transform.smoothscale(self.PLAYER_SHIPS["ORANGE"][2], (30, 30))
+        image.set_colorkey((0, 0, 0))
+        super().__init__(image, shot_damage=self.DEFAULT_SHOT_DAMAGE,
+                         shot_speed=self.DEFAULT_SHOT_SPEED, health=1000)
         self.score = 0
         self.set_location(WINDOW_WIDTH // 2 - self.rect.width // 2, WINDOW_HEIGHT - 2 * self.rect.height)
 
-        self.has_shield = has_shield
+        self.has_shield = False
 
         # Holds a list of shields. Used only for drawing purposes
         self.shield = pygame.sprite.Group()
@@ -95,10 +119,19 @@ class Player(Vehicle):
         if keys_down[pygame.K_SPACE]:
             self.shoot()
 
+    def check_boundaries(self):
+        if self.rect.x + self.rect.width > WINDOW_WIDTH or self.rect.x < 0:
+            self.change_x *= -1
+        if self.rect.y < 0 or self.rect.y + self.rect.height > WINDOW_HEIGHT:
+            self.change_y *= -1
+
     def update(self):
         self.animation_list.update()
         self.health_container.update()
         if self.shield:
             self.shield.update()
         self.handle_keystrokes()
-        super().update()
+        if self.ammunition_list:
+            self.ammunition_list.update()
+        self.rect.x += self.change_x
+        self.rect.y += self.change_y

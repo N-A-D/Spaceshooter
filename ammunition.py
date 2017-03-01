@@ -2,19 +2,38 @@
 Author: Ned Austin Datiles
 """
 import pygame
-from core import AMMO_TYPES
 from constants import BLACK, WINDOW_HEIGHT, WINDOW_WIDTH
 
 class Ammunition(pygame.sprite.Sprite):
     """ Ammunition superclass
     """
+    LASERS = {
+        'BLUE': [
+            pygame.image.load("Assets\spaceshooter\PNG\Lasers\laserBlue16.png"),
+            pygame.image.load("Assets\spaceshooter\PNG\Lasers\laserBlue08.png"),
+            pygame.image.load("Assets\spaceshooter\PNG\Lasers\laserBlue10.png")
+        ],
+        'RED': [
+            pygame.image.load("Assets\spaceshooter\PNG\Lasers\laserRed16.png"),
+            pygame.image.load("Assets\spaceshooter\PNG\Lasers\laserRed08.png"),
+            pygame.image.load("Assets\spaceshooter\PNG\Lasers\laserRed10.png")
+        ],
+        'GREEN': [
+            pygame.image.load("Assets\spaceshooter\PNG\Lasers\laserGreen10.png"),
+            pygame.image.load("Assets\spaceshooter\PNG\Lasers\laserGreen16.png"),
+            pygame.image.load("Assets\spaceshooter\PNG\Lasers\laserGreen14.png")
+        ]
+    }
     def __init__(self, owner, angle, shot_damage, shot_speed, type=0):
         super().__init__()
         self.owner = owner  # from where did this shot come from
-        self.original_image = AMMO_TYPES[type]["image"]
+        self.original_image = self.LASERS["RED"][0]
+        self.animations = self.LASERS["RED"]
         self.angle = angle
         if self.angle != 0:
             self.original_image = pygame.transform.rotozoom(self.original_image, self.angle, 1)
+        self.original_image = pygame.transform.smoothscale(self.original_image, (3, 8))
+        self.original_image.set_colorkey((0, 0, 0))
         self.original_image.set_colorkey(BLACK)
         self.image = self.original_image
         self.rect = self.image.get_rect()

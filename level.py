@@ -3,8 +3,7 @@ Author: Ned Austin Datiles
 """
 import pygame, sys, random
 from player import Player
-from enemy import Elite_Drone
-from animations import Animation
+from enemy import Enemy
 from textInfo import Text
 from constants import *
 
@@ -91,7 +90,6 @@ class Level(object):
             for bullet in self.player.ammunition_list:
                 enemy_hit_list = pygame.sprite.spritecollide(bullet, self.enemy_list, False)
                 if enemy_hit_list:
-                    self.animation_list.add(Animation(bullet.rect.x, bullet.rect.y + bullet.rect.height))
                     self.player.ammunition_list.remove(bullet)
                     for enemy in enemy_hit_list:
                         self.animation_list.add(Text(enemy, bullet.get_impact(), (255, 0, 0)))
@@ -116,12 +114,9 @@ class Level(object):
                 if hit_player:
                     for bullet in hit_player:
                         self.animation_list.add(Text(self.player, bullet.get_impact(), (255, 0, 0)))
-                        self.animation_list.add(Animation(bullet.rect.x, bullet.rect.y))
                         self.player.sustain_damage(bullet.get_impact())
                         enemy.ammunition_list.remove(bullet)
     def update(self):
-        for enemy in self.enemy_list:
-            print(enemy.change_x, enemy.change_y)
         self.animation_list.update()
         self.check_world_condition()
         self.check_bullet_collisions()
@@ -132,20 +127,14 @@ class Level(object):
 class Level01(Level):
     def __init__(self, player):
         super().__init__(player)
-        """
-        for i in range(50, WINDOW_WIDTH - 50, 50):
+        for i in range(200, 250, 50):
             for j in range(-100, -50, 50):
-                enemy = Elite_Drone()
+                enemy = Enemy()
                 enemy.set_location(i, j)
                 enemy.level = self
                 enemy.track_player = False
                 self.enemy_list.add(enemy)
-        """
-        enemy = Elite_Drone()
-        enemy.level = self
-        enemy.track_player = False
-        enemy.set_location(WINDOW_WIDTH//2, enemy.rect.height)
-        self.enemy_list.add(enemy)
+
 
 def main():
     pygame.init()
